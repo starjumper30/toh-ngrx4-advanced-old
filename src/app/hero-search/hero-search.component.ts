@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
 
 import { HeroSearchService } from './hero-search.service';
-import { Hero } from './hero';
+import { Hero } from '../hero';
 
 import 'rxjs/add/observable/of';
 import 'rxjs/add/operator/catch';
@@ -15,8 +15,7 @@ import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'my-hero-search',
   templateUrl: './hero-search.component.html',
-  styleUrls: ['./hero-search.component.css'],
-  providers: [HeroSearchService]
+  styleUrls: ['./hero-search.component.css']
 })
 export class HeroSearchComponent implements OnInit {
   heroes: Observable<Hero[]>;
