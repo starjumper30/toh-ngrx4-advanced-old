@@ -23,8 +23,9 @@ export class HeroesComponent implements OnInit {
   getHeroes(): void {
     this.heroService
       .getHeroes()
-      .then(heroes => this.heroes = heroes)
-      .catch(error => this.error = error);
+      .subscribe(
+        heroes => this.heroes = heroes,
+        error => this.error = error);
   }
 
   addHero(): void {
@@ -40,12 +41,11 @@ export class HeroesComponent implements OnInit {
   deleteHero(hero: Hero, event: any): void {
     event.stopPropagation();
     this.heroService
-      .delete(hero)
-      .then(res => {
+      .deleteHero(hero)
+      .subscribe(() => {
         this.heroes = this.heroes.filter(h => h !== hero);
         if (this.selectedHero === hero) { this.selectedHero = null; }
-      })
-      .catch(error => this.error = error);
+      }, error => this.error = error);
   }
 
   ngOnInit(): void {
