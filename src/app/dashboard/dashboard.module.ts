@@ -3,6 +3,7 @@ import {CommonModule} from '@angular/common';
 
 import {DashboardComponent} from './dashboard.component';
 import {HeroSearchModule} from '../hero-search/hero-search.module';
+import {DashboardViewComponent} from './dashboard-view.component';
 
 @NgModule({
   imports: [
@@ -10,7 +11,8 @@ import {HeroSearchModule} from '../hero-search/hero-search.module';
     HeroSearchModule
   ],
   declarations: [
-    DashboardComponent
+    DashboardComponent,
+    DashboardViewComponent
   ],
   exports: [
     DashboardComponent

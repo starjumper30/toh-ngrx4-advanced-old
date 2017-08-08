@@ -2,6 +2,7 @@ import {NgModule} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {HeroesComponent} from './heroes.component';
 import {HeroDetailModule} from '../hero-detail/hero-detail.module';
+import {HeroesViewComponent} from './heroes-view.component';
 
 @NgModule({
   imports: [
@@ -9,7 +10,8 @@ import {HeroDetailModule} from '../hero-detail/hero-detail.module';
     HeroDetailModule
   ],
   declarations: [
-    HeroesComponent
+    HeroesComponent,
+    HeroesViewComponent
   ],
   exports: [
     HeroesComponent

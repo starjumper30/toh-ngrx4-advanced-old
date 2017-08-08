@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
+import {AppState} from './store/reducers';
+import {Store} from '@ngrx/store';
+import {LoadHeroesAction} from './store/hero.actions';
 
 @Component({
   selector: 'my-root',
@@ -13,6 +16,15 @@ import { Component } from '@angular/core';
   `,
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'Tour of Heroes';
+
+  constructor(private store: Store<AppState>) {
+  }
+
+  ngOnInit(): void {
+    // ideally, we would use the defer() feature to initialize in effects,
+    // but it seems to be broken at the moment.
+    this.store.dispatch(new LoadHeroesAction());
+  }
 }

@@ -1,31 +1,24 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import {Component} from '@angular/core';
+import {Router} from '@angular/router';
 
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
+import {Hero} from '../hero';
+import {AppState} from '../store/reducers';
+import {Store} from '@ngrx/store';
+import {getHeroes} from '../store/hero-list.reducer';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'my-dashboard',
-  templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.css']
+  template: `<my-dashboard-view 
+              [heroes]="(heroes$ | async).slice(1, 5)"
+              (heroClicked)="gotoDetail($event)"></my-dashboard-view>`
 })
-export class DashboardComponent implements OnInit {
-  heroes: Hero[] = [];
+export class DashboardComponent {
+  heroes$: Observable<Hero[]>;
 
-  constructor(
-    private router: Router,
-    private heroService: HeroService) {
-  }
-
-  ngOnInit(): void {
-    this.heroService.getHeroes()
-      .subscribe(
-        heroes => this.heroes = heroes.slice(1, 5),
-        error => {
-          console.error('An error occurred', error);
-          this.heroes = []
-        }
-      );
+  constructor(private router: Router,
+              store: Store<AppState>) {
+    this.heroes$ = store.select(getHeroes);
   }
 
   gotoDetail(hero: Hero): void {

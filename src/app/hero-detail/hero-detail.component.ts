@@ -1,59 +1,58 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ActivatedRoute, Params } from '@angular/router';
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute, Params} from '@angular/router';
 
-import { Hero } from '../hero';
-import { HeroService } from '../hero.service';
+import {Hero} from '../hero';
+import {AppState} from '../store/reducers';
+import {Store} from '@ngrx/store';
+import {
+  AddHeroAction,
+  GetHeroAction,
+  ResetBlankHeroAction,
+  SaveHeroAction,
+  SetAddingHeroAction
+} from '../store/hero.actions';
+import {getSelectedHero} from '../store/hero.reducer';
+import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'my-hero-detail',
-  templateUrl: './hero-detail.component.html',
-  styleUrls: ['./hero-detail.component.css']
+  template: `<my-hero-detail-view 
+              [hero]="hero$ | async"
+              (close)="goBack()"
+              (saveRequested)="save($event)"></my-hero-detail-view>`,
 })
 export class HeroDetailComponent implements OnInit {
-  @Input() hero: Hero;
-  @Output() close = new EventEmitter();
-  error: any;
-  navigated = false; // true if navigated here
+  private navigated = false; // true if navigated here
+  hero$ = new Observable<Hero>();
 
-  constructor(
-    private heroService: HeroService,
-    private route: ActivatedRoute) {
+  constructor(private route: ActivatedRoute,
+              private store: Store<AppState>) {
+    this.hero$ = store.select(getSelectedHero);
   }
 
   ngOnInit(): void {
     this.route.params.forEach((params: Params) => {
       if (params['id'] !== undefined) {
-        const id = +params['id'];
+        const id: number = +params['id'];
+        this.store.dispatch(new GetHeroAction(id));
         this.navigated = true;
-        this.heroService.getHero(id)
-          .subscribe(
-            hero => this.hero = hero,
-            error => {
-              console.error('An error occurred', error);
-              this.hero = undefined
-            });
       } else {
+        this.store.dispatch(new ResetBlankHeroAction());
         this.navigated = false;
-        this.hero = new Hero();
       }
     });
   }
 
-  save(): void {
-    this.heroService
-        .saveHero(this.hero)
-        .subscribe(hero => {
-          this.hero = hero; // saved hero, w/ id if new
-          this.goBack(hero);
-        },
-          error => {
-            console.error('An error occurred', error);
-            this.error = error;// TODO: Display error message
-          });
+  save(hero: Hero): void {
+    let action = hero.id ? new SaveHeroAction(hero) : new AddHeroAction(hero);
+    this.store.dispatch(action);
+    this.goBack();
   }
 
-  goBack(savedHero: Hero = null): void {
-    this.close.emit(savedHero);
-    if (this.navigated) { window.history.back(); }
+  goBack(): void {
+    this.store.dispatch(new SetAddingHeroAction(false));
+    if (this.navigated) {
+      window.history.back();
+    }
   }
 }
