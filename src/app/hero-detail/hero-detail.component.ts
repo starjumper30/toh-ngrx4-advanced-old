@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {ActivatedRoute, Params} from '@angular/router';
 
 import {Hero} from '../hero';
@@ -20,6 +20,7 @@ import {Observable} from 'rxjs/Observable';
               [hero]="hero$ | async"
               (close)="goBack()"
               (saveRequested)="save($event)"></my-hero-detail-view>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroDetailComponent implements OnInit {
   private navigated = false; // true if navigated here

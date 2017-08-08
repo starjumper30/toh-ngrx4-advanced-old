@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {Hero} from '../hero';
@@ -11,7 +11,8 @@ import {Observable} from 'rxjs/Observable';
   selector: 'my-dashboard',
   template: `<my-dashboard-view 
               [heroes]="(heroes$ | async).slice(1, 5)"
-              (heroClicked)="gotoDetail($event)"></my-dashboard-view>`
+              (heroClicked)="gotoDetail($event)"></my-dashboard-view>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
   heroes$: Observable<Hero[]>;

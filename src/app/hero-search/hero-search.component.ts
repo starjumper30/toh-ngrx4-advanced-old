@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs/Observable';
 import { Subject } from 'rxjs/Subject';
@@ -15,7 +15,8 @@ import 'rxjs/add/operator/switchMap';
 @Component({
   selector: 'my-hero-search',
   templateUrl: './hero-search.component.html',
-  styleUrls: ['./hero-search.component.css']
+  styleUrls: ['./hero-search.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroSearchComponent implements OnInit {
   heroes: Observable<Hero[]>;

@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -18,7 +19,8 @@ class InputChanges implements SimpleChanges {
 @Component({
   selector: 'my-hero-detail-view',
   templateUrl: './hero-detail-view.component.html',
-  styleUrls: ['./hero-detail-view.component.css']
+  styleUrls: ['./hero-detail-view.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroDetailViewComponent implements OnChanges {
 

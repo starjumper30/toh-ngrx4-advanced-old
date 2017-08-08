@@ -1,4 +1,4 @@
-import {Component} from '@angular/core';
+import {ChangeDetectionStrategy, Component} from '@angular/core';
 import {Router} from '@angular/router';
 
 import {Hero} from '../hero';
@@ -23,6 +23,7 @@ import {
               (detailsRequested)="gotoDetail($event)"
               (heroDeleted)="deleteHero($event)"
               (heroSelected)="onSelect($event)"></my-heroes-view>`,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroesComponent {
   heroes$: Observable<Hero[]>;

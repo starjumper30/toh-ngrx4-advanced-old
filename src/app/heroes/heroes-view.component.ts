@@ -1,11 +1,15 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {
+  ChangeDetectionStrategy, Component, EventEmitter, Input,
+  Output
+} from '@angular/core';
 
 import {Hero} from '../hero';
 
 @Component({
   selector: 'my-heroes-view',
   templateUrl: './heroes-view.component.html',
-  styleUrls: ['./heroes-view.component.css']
+  styleUrls: ['./heroes-view.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HeroesViewComponent {
   @Input() heroes: Hero[];
