@@ -24,11 +24,6 @@ export class HeroListEffects {
               private svc: HeroService) {
   }
 
-  @Effect({dispatch: false}) all$ = this.actions$
-    .map(action => {
-      return console.log({action});
-    });
-
   @Effect() loadHeroes$ = this.actions$
     .ofType(heroActions.LOAD_HEROES)
     .switchMap(() => this.svc.getHeroes())
