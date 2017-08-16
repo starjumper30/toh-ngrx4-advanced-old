@@ -21,6 +21,9 @@ Further steps that aren't included at this point could include the following:
 Thanks to [Nick Klepinger](http://bodiddlie.github.io/ng-2-toh-with-ngrx-suite/) for providing inspiration through an earlier 
 [update](https://github.com/bodiddlie/rxheroes) of Tour of Heroes using older versions of @ngrx, etc.
 
+I presented on this project at [Angular Lunch](https://angularlunch.wordpress.com/) in August 2017: 
+[Presentation](https://docs.google.com/presentation/d/1maxom8L2S9XY7sokrr7hPrMyrnp8p_rwqVTRZEcVf0o/edit?usp=sharing)
+
 ## Get the Code
 ```
 git clone https://github.com/LMFinney/toh-ngrx4.git
