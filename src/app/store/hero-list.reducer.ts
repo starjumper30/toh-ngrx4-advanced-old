@@ -5,14 +5,14 @@ import {AppState} from './reducers';
 import {createSelector, Selector} from '@ngrx/store';
 import {List, Record} from 'immutable';
 
-interface HeroesListStateParams {
+export interface HeroesListStateParams {
   heroes?: List<Hero>,
   error?: any
 }
 
 export class HeroListState extends Record({heroes: List(), error: null}) {
-  heroes: List<Hero>;
-  error?: any;
+  readonly heroes: List<Hero>;
+  readonly error: any;
 
   constructor(params?: HeroesListStateParams) {
     params ? super(params) : super();

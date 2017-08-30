@@ -16,7 +16,7 @@ import {Observable} from 'rxjs/Observable';
 
 @Component({
   selector: 'my-hero-detail',
-  template: `<my-hero-detail-view 
+  template: `<my-hero-detail-view
               [hero]="hero$ | async"
               (close)="goBack()"
               (saveRequested)="save($event)"></my-hero-detail-view>`,
