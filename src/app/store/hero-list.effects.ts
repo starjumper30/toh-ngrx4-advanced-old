@@ -17,6 +17,7 @@ import {
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
 import {of} from 'rxjs/observable/of';
+import {List} from 'immutable';
 
 @Injectable()
 export class HeroListEffects {
@@ -27,7 +28,7 @@ export class HeroListEffects {
   @Effect() loadHeroes$ = this.actions$
     .ofType(heroActions.LOAD_HEROES)
     .switchMap(() => this.svc.getHeroes())
-    .map(heroes => new LoadHeroesSuccessAction(heroes))
+    .map(heroes => new LoadHeroesSuccessAction(List(heroes)))
     .catch(error => of(new SetErrorAction(error)));
 
   @Effect() getHero$ = this.actions$

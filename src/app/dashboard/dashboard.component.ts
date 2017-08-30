@@ -6,16 +6,17 @@ import {AppState} from '../store/reducers';
 import {Store} from '@ngrx/store';
 import {getHeroes} from '../store/hero-list.reducer';
 import {Observable} from 'rxjs/Observable';
+import {List} from 'immutable';
 
 @Component({
   selector: 'my-dashboard',
-  template: `<my-dashboard-view 
+  template: `<my-dashboard-view
               [heroes]="(heroes$ | async).slice(1, 5)"
               (heroClicked)="gotoDetail($event)"></my-dashboard-view>`,
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
-  heroes$: Observable<Hero[]>;
+  heroes$: Observable<List<Hero>>;
 
   constructor(private router: Router,
               store: Store<AppState>) {
