@@ -27,26 +27,22 @@ const initialState: HeroState = new HeroState();
 const blankHero: Hero = new Hero();
 
 export function heroReducer(state = initialState, action: TypedAction<any>): HeroState {
-  switch (action.type) {
-    case HeroActionEnum.RESET_BLANK_HERO.type: {
-      return state.assign({selectedHero: blankHero});
-    }
-    case HeroActionEnum.SET_ADDING_HERO.type: {
-      return state.assign({selectedHero: null, addingHero: action.payload});
-    }
-    case HeroActionEnum.GET_HERO_SUCCESS.type: {
-      return state.assign({selectedHero: action.payload});
-    }
-    case HeroActionEnum.DELETE_HERO_SUCCESS.type: {
-      return state.assign({selectedHero: null});
-    }
-    case HeroActionEnum.SELECT_HERO.type: {
-      return state.assign({selectedHero: action.payload, addingHero: false});
-    }
-    default: {
-      return state;
-    }
+  if (HeroActionEnum.RESET_BLANK_HERO.matches(action)) {
+    return state.assign({selectedHero: blankHero});
+
+  } else if (HeroActionEnum.SET_ADDING_HERO.matches(action)) {
+    return state.assign({selectedHero: null, addingHero: action.payload});
+
+  } else if (HeroActionEnum.GET_HERO_SUCCESS.matches(action)) {
+    return state.assign({selectedHero: action.payload});
+
+  } else if (HeroActionEnum.DELETE_HERO_SUCCESS.matches(action)) {
+    return state.assign({selectedHero: null});
+
+  } else if (HeroActionEnum.SELECT_HERO.matches(action)) {
+    return state.assign({selectedHero: action.payload, addingHero: false});
   }
+  return state;
 }
 
 const getHeroState: Selector<AppState, HeroState> =
