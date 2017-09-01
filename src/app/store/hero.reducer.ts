@@ -2,7 +2,8 @@ import {createSelector, Selector} from '@ngrx/store';
 import {Record} from 'immutable';
 import {Hero} from '../hero';
 import {AppState} from './reducers';
-import * as heroActions from './hero.actions';
+import {HeroActionEnum} from './hero.actions';
+import {TypedAction} from 'ngrx-enums';
 
 export interface HeroStateParam {
   selectedHero?: Hero,
@@ -25,21 +26,21 @@ export class HeroState extends Record({selectedHero: null, addingHero: false}) {
 const initialState: HeroState = new HeroState();
 const blankHero: Hero = new Hero();
 
-export function heroReducer(state = initialState, action: heroActions.Actions): HeroState {
+export function heroReducer(state = initialState, action: TypedAction<any>): HeroState {
   switch (action.type) {
-    case heroActions.RESET_BLANK_HERO: {
+    case HeroActionEnum.RESET_BLANK_HERO.type: {
       return state.assign({selectedHero: blankHero});
     }
-    case heroActions.SET_ADDING_HERO: {
+    case HeroActionEnum.SET_ADDING_HERO.type: {
       return state.assign({selectedHero: null, addingHero: action.payload});
     }
-    case heroActions.GET_HERO_SUCCESS: {
+    case HeroActionEnum.GET_HERO_SUCCESS.type: {
       return state.assign({selectedHero: action.payload});
     }
-    case heroActions.DELETE_HERO_SUCCESS: {
+    case HeroActionEnum.DELETE_HERO_SUCCESS.type: {
       return state.assign({selectedHero: null});
     }
-    case heroActions.SELECT_HERO: {
+    case HeroActionEnum.SELECT_HERO.type: {
       return state.assign({selectedHero: action.payload, addingHero: false});
     }
     default: {

@@ -1,23 +1,21 @@
 import {Injectable} from '@angular/core';
 import {Actions, Effect} from '@ngrx/effects';
 
-import {HeroService} from '../hero.service';
-import * as heroActions from './hero.actions';
-import {
-  AddHeroAction,
-  AddHeroSuccessAction,
-  DeleteHeroAction,
-  DeleteHeroSuccessAction,
-  GetHeroAction,
-  GetHeroSuccessAction,
-  LoadHeroesSuccessAction,
-  SaveHeroAction,
-  SaveHeroSuccessAction, SetErrorAction
-} from './hero.actions';
+import {Observable} from 'rxjs/Observable';
 import 'rxjs/add/operator/filter';
 import 'rxjs/add/operator/do';
 import {of} from 'rxjs/observable/of';
 import {List} from 'immutable';
+import {TypedAction} from 'ngrx-enums';
+
+import {HeroService} from '../hero.service';
+import {HeroActionEnum, HeroActionEnumType} from './hero.actions';
+import {GeneralActionEnum} from './general.actions';
+
+
+function handleError(error: any): Observable<TypedAction<any>> {
+  return of(GeneralActionEnum.SET_ERROR.toAction(error));
+}
 
 @Injectable()
 export class HeroListEffects {
@@ -25,37 +23,28 @@ export class HeroListEffects {
               private svc: HeroService) {
   }
 
-  @Effect() loadHeroes$ = this.actions$
-    .ofType(heroActions.LOAD_HEROES)
+  @Effect() loadHeroes$ = HeroActionEnum.LOAD_HEROES.of(this.actions$)
     .switchMap(() => this.svc.getHeroes())
-    .map(heroes => new LoadHeroesSuccessAction(List(heroes)))
-    .catch(error => of(new SetErrorAction(error)));
+    .map(heroes => HeroActionEnum.LOAD_HEROES_SUCCESS.toAction(List(heroes)))
+    .catch(handleError);
 
-  @Effect() getHero$ = this.actions$
-    .ofType(heroActions.GET_HERO)
-    .map((action: GetHeroAction) => action.payload)
+  @Effect() getHero$ = HeroActionEnum.GET_HERO.of(this.actions$)
     .switchMap(id => this.svc.getHero(id))
-    .map(hero => new GetHeroSuccessAction(hero))
-    .catch(error => of(new SetErrorAction(error)));
+    .map(hero => HeroActionEnum.GET_HERO_SUCCESS.toAction(hero))
+    .catch(handleError);
 
-  @Effect() saveHero$ = this.actions$
-    .ofType(heroActions.SAVE_HERO)
-    .map((action: SaveHeroAction) => action.payload)
+  @Effect() saveHero$ = HeroActionEnum.SAVE_HERO.of(this.actions$)
     .switchMap(hero => this.svc.saveHero(hero))
-    .map(hero => new SaveHeroSuccessAction(hero))
-    .catch(error => of(new SetErrorAction(error)));
+    .map(hero => HeroActionEnum.SAVE_HERO_SUCCESS.toAction(hero))
+    .catch(handleError);
 
-  @Effect() addHero$ = this.actions$
-    .ofType(heroActions.ADD_HERO)
-    .map((action: AddHeroAction) => action.payload)
+  @Effect() addHero$ = HeroActionEnum.ADD_HERO.of(this.actions$)
     .switchMap(hero => this.svc.saveHero(hero))
-    .map(hero => new AddHeroSuccessAction(hero))
-    .catch(error => of(new SetErrorAction(error)));
+    .map(hero => HeroActionEnum.ADD_HERO_SUCCESS.toAction(hero))
+    .catch(handleError);
 
-  @Effect() deleteHero$ = this.actions$
-    .ofType(heroActions.DELETE_HERO)
-    .map((action: DeleteHeroAction) => action.payload)
+  @Effect() deleteHero$ = HeroActionEnum.DELETE_HERO.of(this.actions$)
     .switchMap(hero => this.svc.deleteHero(hero))
-    .map(hero => new DeleteHeroSuccessAction(hero))
-    .catch(error => of(new SetErrorAction(error)));
+    .map(hero => HeroActionEnum.DELETE_HERO_SUCCESS.toAction(hero))
+    .catch(handleError);
 }
